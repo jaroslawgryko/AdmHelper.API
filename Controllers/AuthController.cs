@@ -7,6 +7,7 @@ using AdmHelper.API.Data;
 using AdmHelper.API.Dtos;
 using AdmHelper.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AdmHelper.API.Controllers
@@ -15,19 +16,21 @@ namespace AdmHelper.API.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthRepository _repo;
-        public AuthController(IAuthRepository repo)
+        private readonly IConfiguration _config;
+        public AuthController(IAuthRepository repo, IConfiguration config)
         {
+            _config = config;
             _repo = repo;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDto userForRegisterDto)
-        {            
+        {
             if (!string.IsNullOrEmpty(userForRegisterDto.Username))
                 userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
             if (await _repo.UserExists(userForRegisterDto.Username))
                 ModelState.AddModelError("username", "Już istnieje");
- 
+
             // validate request
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -39,20 +42,20 @@ namespace AdmHelper.API.Controllers
 
             var userCreated = await _repo.Register(userToCreate, userForRegisterDto.Password);
             return StatusCode(201);
-        }     
+        }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
-            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), 
+            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(),
                 userForLoginDto.Password);
 
-            if (userFromRepo == null)   
+            if (userFromRepo == null)
                 return Unauthorized();
-            
+
             // generate token
-             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("super secret password");
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_config.GetSection("AppSettings:Token").Value);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -66,7 +69,7 @@ namespace AdmHelper.API.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-             return Ok( new {tokenString});
-         }           
+            return Ok(new { tokenString });
+        }
     }
 }
