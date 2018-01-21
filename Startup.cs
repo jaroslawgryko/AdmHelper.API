@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdmHelper.API.Data;
 using AdmHelper.API.Helpers;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -35,8 +36,11 @@ namespace AdmHelper.API
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
-            
+            services.AddTransient<Seed>();
+            services.AddAutoMapper();
+
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IHelperRepository, HelperRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer( options => {
@@ -54,7 +58,7 @@ namespace AdmHelper.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +81,10 @@ namespace AdmHelper.API
                     });
                 });
             }
+
+            // sql: usunąć baze; ef: wykonać update; odkomentować seeder; uruchomić; zakomentować
+            //seeder.SeedUsers();
+
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             app.UseAuthentication();
             app.UseMvc();

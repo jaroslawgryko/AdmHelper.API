@@ -1,0 +1,42 @@
+[
+    {
+        "username": "adam",
+        "password": "password",
+        "email": "adam@gmail.pl",
+        "jednostkanazwa": "Narodowe Centrum Nauki",
+        "jednostkaopis": "Opis NCN",
+        "symbol": "NCN"
+    },
+    {
+        "username": "barbara",
+        "password": "password",
+        "email": "barbara@gmail.pl",
+        "jednostkanazwa": "Ministerstwo Finansów",
+        "jednostkaopis": "Opis MF",
+        "symbol": "MF"
+    },
+    {
+        "username": "celina",
+        "password": "password",
+        "email": "celina@gmail.pl",
+        "jednostkanazwa": "Ministerstwo Sprawiedliwości",
+        "jednostkaopis": "Opis MS",
+        "symbol": "MS"
+    },
+    {
+        "username": "darek",
+        "password": "password",
+        "email": "darek@gmail.pl",
+        "jednostkanazwa": "Ministerstwo Rolnictwa",
+        "jednostkaopis": "Opis MR",
+        "symbol": "MR"
+    },
+    {
+        "username": "edmund",
+        "password": "password",
+        "email": "edmund@gmail.pl",
+        "jednostkanazwa": "Ministerstwo Rozwoju",
+        "jednostkaopis": "Opis MR",
+        "symbol": "MR"
+    }
+]
