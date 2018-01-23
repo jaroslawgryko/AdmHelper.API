@@ -13,6 +13,13 @@ namespace AdmHelper.API.Helpers
             .ForMember(dest => dest.JednostkaNazwa, opt => {
                 opt.MapFrom(src => src.Jednostki.FirstOrDefault(j => j.IsMain).Nazwa);
             });        
+
+            CreateMap<User, UserForDetailedDto>()
+            .ForMember(dest => dest.JednostkaNazwa, opt => {
+                opt.MapFrom(src => src.Jednostki.FirstOrDefault(j => j.IsMain).Nazwa);
+            });  
+
+            CreateMap<Jednostka, JednostkaForDetailedDto>();            
         }
     }
 }
