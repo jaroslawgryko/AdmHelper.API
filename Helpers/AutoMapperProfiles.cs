@@ -34,7 +34,7 @@ namespace AdmHelper.API.Helpers
             })
             .ForMember(dest => dest.Jednostki, opt => opt.Ignore())
             .AfterMap((us, ud) => {  
-                ud.DataModyfikacji = DateTime.Now;                             
+                ud.DataModyfikacji = DateTime.Now;       
                 ud.Jednostki.Where(j => j.UserId == ud.Id && j.IsMain).SingleOrDefault().Nazwa = us.InstytucjaNazwa;
                 ud.Jednostki.Where(j => j.UserId == ud.Id && j.IsMain).SingleOrDefault().Symbol = us.InstytucjaSymbol;
                 ud.Jednostki.Where(j => j.UserId == ud.Id && j.IsMain).SingleOrDefault().Opis = us.InstytucjaOpis;

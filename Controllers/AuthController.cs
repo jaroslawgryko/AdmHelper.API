@@ -35,10 +35,23 @@ namespace AdmHelper.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var jednostkaToCreate = new Jednostka {
+                Nazwa = userForRegisterDto.InstytucjaNazwa,
+                Symbol = userForRegisterDto.InstytucjaSymbol,
+                Opis = userForRegisterDto.InstytucjaOpis,
+                DataModyfikacji = DateTime.Now,
+                IsMain = true
+            };
+
             var userToCreate = new User
             {
-                Username = userForRegisterDto.Username
+                Username = userForRegisterDto.Username,
+                Email = userForRegisterDto.Email,
+                DataModyfikacji = userForRegisterDto.DataModyfikacji,
+                DataUtworzenia = userForRegisterDto.DataUtworzenia                
             };
+
+            userToCreate.Jednostki.Add(jednostkaToCreate);
 
             var userCreated = await _repo.Register(userToCreate, userForRegisterDto.Password);
             return StatusCode(201);

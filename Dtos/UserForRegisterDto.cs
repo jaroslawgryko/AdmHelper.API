@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AdmHelper.API.Dtos
@@ -11,12 +12,19 @@ namespace AdmHelper.API.Dtos
         public string  Password { get; set; }     
         [Required]
         public string  Email { get; set; }
+        public DateTime DataUtworzenia { get; set; }
+        public DateTime DataModyfikacji { get; set; }        
         [Required]
         [StringLength(60)]
-        public string JednostkaNazwa { get; set; }
-        public string JednostkaOpis { get; set; }
+        public string InstytucjaNazwa { get; set; }
+        public string InstytucjaOpis { get; set; }
         [Required]
         [StringLength(16)]
-        public string Symbol { get; set; }        
+        public string InstytucjaSymbol { get; set; }        
+        public UserForRegisterDto()
+        {
+            DataUtworzenia = DateTime.Now;
+            DataModyfikacji = DateTime.Now;
+        }           
     }
 }

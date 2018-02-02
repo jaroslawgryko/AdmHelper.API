@@ -34,15 +34,16 @@ namespace AdmHelper.API.Data
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Email = userForRegister.Email,
+                    DataUtworzenia = DateTime.Now,
                     DataModyfikacji = DateTime.Now
                 };                
 
                 var u = _context.Users.Add(user);
 
                 var jednostka = new Jednostka()  {
-                    Nazwa = userForRegister.JednostkaNazwa,
-                    Opis = userForRegister.JednostkaOpis,
-                    Symbol = userForRegister.Symbol,
+                    Nazwa = userForRegister.InstytucjaNazwa,
+                    Opis = userForRegister.InstytucjaOpis,
+                    Symbol = userForRegister.InstytucjaSymbol,                    
                     DataModyfikacji = DateTime.Now,
                     User = u.Entity,
                     IsMain = true
