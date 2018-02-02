@@ -9,7 +9,9 @@ namespace AdmHelper.API.Dtos
         public string Username { get; set; }
         public DateTime DataModyfikacji { get; set; }
         public string Email { get; set; }
-        public string JednostkaNazwa { get; set; }     
+        public string InstytucjaNazwa { get; set; } 
+        public string InstytucjaSymbol { get; set; }
+        public string InstytucjaOpis { get; set; }
         public ICollection<JednostkaForDetailedDto> Jednostki { get; set; }          
     }
 }
